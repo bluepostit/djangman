@@ -1,0 +1,1 @@
+{"status":"done","chunks":{"main":[{"name":"main-6df044b943f29b992d7f.js","path":"C:\\Users\\Yair\\dev\\python\\DI\\games\\assets\\bundles\\main-6df044b943f29b992d7f.js"}]},"error":"ModuleNotFoundError","message":"Module not found: Error: Can't resolve 'assets/css/styles.css' in 'C:\\Users\\Yair\\dev\\python\\DI\\games\\assets\\js'"}
