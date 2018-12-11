@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+{% load render_bundle from webpack_loader %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block css %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+
+    <div id="content">
+        {% render_bundle 'main' %}
+        {% block content %}{% endblock %}
+    </div>
+    {% block javascript %}
+    {% endblock %}
+</body>
+</html>

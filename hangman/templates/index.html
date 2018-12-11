@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Djangman{% endblock %}
+{% block content %}
+<div class="text-center">
+    <h1>Djangman Welcomes You</h1>
+    <div class="container">
+
+        {% if not game %}
+        <p>You are not playing any games right now.</p>
+        <p>Click below to start a new game.</p>
+        <a href="{% url 'hangman:new_game' %}">New game</a>
+
+        {% else %}
+        <div>Current Game</div>
+        <div>
+            <pre>{{ game.guessing_string }}</pre>
+        </div>
+        {{ game.word }}
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
