@@ -115,3 +115,6 @@ dmypy.json
 .pyre/
 
 .idea/
+
+node_modules/
+assets/bundles/
