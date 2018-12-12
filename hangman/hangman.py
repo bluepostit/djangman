@@ -21,7 +21,7 @@ class Game:
         self._check_for_guessed_word()
 
     def guess_word(self, word):
-        if self.word.lower() == word.trim().lower():
+        if self.word.lower() == word.strip().lower():
             self.has_guessed_word = True
 
     def _check_for_guessed_word(self):

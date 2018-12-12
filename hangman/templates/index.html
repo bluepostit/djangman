@@ -17,12 +17,16 @@
         </div>
         <div style="color:white;">{{ game.word }}</div>
         <div>
+            {% if not game.has_guessed_word %}
             <form action="{% url 'hangman:guess' %}" method="post">
-                <label for="guess">Guess a letter or the word:</label>
-                <input type="text" name="guess" id="guess">
+                {{ form.as_table }}
                 <input type="submit" value="Guess">
                 {% csrf_token %}
             </form>
+            {% else %}
+                <h3>Congratulations!<br> You have guessed the word!</h3>
+                <button onclick="location.href = '{% url 'hangman:new_game' %}'">New Game</button>
+            {% endif %}
         </div>
         {% endif %}
     </div>

@@ -1,13 +1,18 @@
 from django.shortcuts import redirect, render, reverse
 from hangman.hangman import Game
+from .forms import GuessForm
 
 def index(request):
     game_dict = request.session.get('game', None)
     game = Game(game_dict['word'], game_dict['guessed_letters'])
     game_dict['guessing_string'] = game.get_guessing_string()
-    return render(request, 'index.html', {
+
+    context = {
         'game': game_dict,
-    })
+    }
+    if not game.has_guessed_word:
+        context['form'] = GuessForm()
+    return render(request, 'index.html', context)
 
 def new_game(request):
     game = Game()
