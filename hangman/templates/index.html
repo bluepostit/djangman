@@ -2,7 +2,7 @@
 {% block title %}Djangman{% endblock %}
 {% block content %}
 <div class="text-center">
-    <h1>Djangman Welcomes You</h1>
+    <h1>Djangman</h1>
     <div class="container">
 
         {% if not game %}
@@ -15,7 +15,15 @@
         <div>
             <pre>{{ game.guessing_string }}</pre>
         </div>
-        {{ game.word }}
+        <div style="color:white;">{{ game.word }}</div>
+        <div>
+            <form action="{% url 'hangman:guess' %}" method="post">
+                <label for="guess">Guess a letter or the word:</label>
+                <input type="text" name="guess" id="guess">
+                <input type="submit" value="Guess">
+                {% csrf_token %}
+            </form>
+        </div>
         {% endif %}
     </div>
 
