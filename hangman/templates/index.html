@@ -15,7 +15,7 @@
         <div>
             <pre>{{ game.guessing_string }}</pre>
         </div>
-        <div style="color:white;">{{ game.word }}</div>
+        <div>You have used <strong>{{ game.guesses }}</strong> guesses</div>
         <div>
             {% if not game.has_guessed_word %}
             <form action="{% url 'hangman:guess' %}" method="post">

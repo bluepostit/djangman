@@ -4,7 +4,12 @@ from .forms import GuessForm
 
 def index(request):
     game_dict = request.session.get('game', None)
-    game = Game(game_dict['word'], game_dict['guessed_letters'])
+    game = Game(
+        game_dict['word'],
+        game_dict['guessed_letters'],
+        game_dict['guesses']
+    )
+    print(game)
     game_dict['guessing_string'] = game.get_guessing_string()
 
     context = {
@@ -18,7 +23,8 @@ def new_game(request):
     game = Game()
     request.session['game'] = {
         'word': str(game.word),
-        'guessed_letters': []
+        'guessed_letters': [],
+        'guesses': 0,
     }
     return redirect(reverse('hangman:index'))
 
@@ -35,6 +41,7 @@ def guess(request):
         request.session['game'] = {
             'word': str(game.word),
             'guessed_letters': game.guessed_letters,
+            'guesses': game.count_guesses,
             'has_guessed_word': game.has_guessed_word,
         }
     return redirect(reverse('hangman:index'))
