@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render, reverse
+from django.contrib import messages
 from hangman.hangman import Game
 from .forms import GuessForm
 
@@ -29,14 +30,15 @@ def new_game(request):
     return redirect(reverse('hangman:index'))
 
 def guess(request):
-    guess = request.POST.get('guess', None)
-    if guess is not None:
+    form = GuessForm(request.POST)
+    if form.is_valid():
+        guess = form.cleaned_data['guess']
         game_dict = request.session.get('game', None)
         game = Game(game_dict['word'], game_dict['guessed_letters'])
         if len(guess) == 1:
-            game.guess_letter(guess)
+            valid_guess = game.guess_letter(guess)
         else:
-            game.guess_word(guess)
+            valid_guess = game.guess_word(guess)
 
         request.session['game'] = {
             'word': str(game.word),
@@ -44,4 +46,7 @@ def guess(request):
             'guesses': game.count_guesses,
             'has_guessed_word': game.has_guessed_word,
         }
+    elif form.errors:
+        for error in form.errors['guess']:
+            messages.error(request, str(error))
     return redirect(reverse('hangman:index'))

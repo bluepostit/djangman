@@ -29,6 +29,7 @@ class Game:
         if letter in self.guessed_letters:
             return False
         self.guessed_letters.append(letter)
+        self.guessed_letters.sort()
         self.count_guesses += 1
         self._check_for_guessed_word()
 

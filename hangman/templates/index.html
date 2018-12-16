@@ -4,30 +4,47 @@
 <div class="text-center">
     <h1>Djangman</h1>
     <div class="container">
-
         {% if not game %}
-        <p>You are not playing any games right now.</p>
-        <p>Click below to start a new game.</p>
-        <a href="{% url 'hangman:new_game' %}">New game</a>
+            <p>You are not playing any games right now.</p>
+            <p>Click below to start a new game.</p>
+            <a href="{% url 'hangman:new_game' %}">New game</a>
 
         {% else %}
-        <div>Current Game</div>
-        <div>
-            <pre>{{ game.guessing_string }}</pre>
-        </div>
-        <div>You have used <strong>{{ game.guesses }}</strong> guesses</div>
-        <div>
-            {% if not game.has_guessed_word %}
-            <form action="{% url 'hangman:guess' %}" method="post">
-                {{ form.as_table }}
-                <input type="submit" value="Guess">
-                {% csrf_token %}
-            </form>
-            {% else %}
-                <h3>Congratulations!<br> You have guessed the word!</h3>
-                <button onclick="location.href = '{% url 'hangman:new_game' %}'">New Game</button>
-            {% endif %}
-        </div>
+            <div>Current Game</div>
+            <div>
+                {% if not game.has_guessed_word %}
+                    <pre>{{ game.guessing_string }}</pre>
+                {% else %}
+                    <a href="https://www.anagrammer.com/scrabble/{{ game.word }}"
+                       target="_blank">
+                        <pre>{{ game.guessing_string }} </pre>
+                    </a>
+                {% endif %}
+            </div>
+            <div>You have used <strong>{{ game.guesses }}</strong> guess{{ game.guesses|pluralize:"es" }}</div>
+            {% for letter in game.guessed_letters %}
+                <span class="badge badge-secondary">{{ letter }}</span>
+            {% endfor %}
+            <div>
+                {% if not game.has_guessed_word %}
+                    <form action="{% url 'hangman:guess' %}" method="post">
+                        {{ form.as_table }}
+                        <input type="submit" value="Guess">
+                        {% csrf_token %}
+                    </form>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="error-message">{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                {% else %}
+                    <h3>Congratulations!<br> You have guessed the word!</h3>
+                    <button onclick="location.href = '{% url 'hangman:new_game' %}'">New Game</button>
+                {% endif %}
+            </div>
         {% endif %}
     </div>
 
